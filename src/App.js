@@ -1,25 +1,70 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import contacts from "./contacts.json";
+import React, { Component } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+   state = {
+      detailedContacts: contacts.slice(0, 5),
+   };
+
+   handleAdd = () => {
+    let randomIndex = Math.floor(Math.random() * contacts.length)
+    let elem  = contacts[randomIndex]
+    // using the spread operator to grab all elemtents of students one by one and store it in the new array
+    // [...this.state.students]
+    this.setState({
+      detailedContacts: [elem, ...this.state.detailedContacts]
+    })
+}
+
+   render() {
+      const { detailedContacts } = this.state;
+      return (
+         <ul>
+            <button onClick={this.handleAdd}>Add Random</button>
+            <button onClick={this.handleSortName}>Sort Alpabetically</button>
+            <button onClick={this.handleSortPop}>Sort Popularity</button>
+
+           {detailedContacts.map((contactInfo) => {
+               return (
+                  <div>
+                     <div>
+                        <img style={{ width: "70px" }}src={contactInfo.pictureUrl}></img>
+                     </div>
+                     <div>{contactInfo.name} </div>
+                     <div>{contactInfo.popularity} </div>
+                     <button onClick={() => {this.handleDelete(contactInfo.id)}}>Delete</button>
+                  </div>
+               );
+            })}
+         </ul>
+      );
+   }
 }
 
 export default App;
+
+
+
+
+/*
+Starte all over again but left the first try
+
+import './App.css';
+import Contacts from './contacts.json'
+import ContactList from './components/ContactList';
+
+
+function App() {
+  return (
+    <div>
+
+    <div>hellosen</div>
+      <ContactList />
+    </div>
+
+  );
+}
+
+export default App; 
+*/
