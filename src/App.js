@@ -10,8 +10,6 @@ class App extends Component {
   handleAdd = () => {
     let randomIndex = Math.floor(Math.random() * contacts.length)
     let elem  = contacts[randomIndex]
-    // using the spread operator to grab all elemtents of students one by one and store it in the new array
-    // [...this.state.students]
     this.setState({
       detailedContacts: [elem, ...this.state.detailedContacts]
     })
@@ -35,7 +33,35 @@ class App extends Component {
     })
   }
 
+  handleSortPop = () =>{
+    const {detailedContacts} = this.state;
+    let clonedContacts = JSON.parse(JSON.stringify(detailedContacts))
 
+    clonedContacts.sort((a, b)=>{
+      if (a.popularity > b.popularity){
+        return 1
+      } else if (a.popularity < b.popularity){
+        return -1
+      }else{
+        return 0;
+      }
+    })
+    this.setState({
+      detailedContacts: clonedContacts
+    })
+  }
+
+  handleDelete = (Id) => {
+    const {detailedContacts} = this.state
+    let filteredContacts = detailedContacts.filter((oneActor) => {
+        return oneActor.id !== Id
+    })
+
+    this.setState({
+        detailedContacts: filteredContacts
+    })
+
+}
 
   render() {
       const { detailedContacts } = this.state;
